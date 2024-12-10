@@ -99,6 +99,7 @@ svg {
 }
 
 path {
+    cursor: pointer;
     fill: #c4cbf1;
     stroke: #5672d7;
     stroke-width: 1.8;
