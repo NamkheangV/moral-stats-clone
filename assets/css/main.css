@@ -109,3 +109,12 @@ path {
 path:hover {
     fill: #ee7f6a;
 }
+
+.selectedPath {
+  fill: red;
+}
+
+.svg-northeast {
+  transform: scale(2.48);
+  transform-origin: 400px 200px;
+}
