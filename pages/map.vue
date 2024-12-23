@@ -1,99 +1,14 @@
 <script setup lang="ts">
+import { regions } from "~/common/interfaces/regions";
+
 const hoverValue = ref<string | null>(null);
 const svg_map = ref<HTMLElement | null>(null); // svg element reference
+const legion_svg_class = ref<string>(""); // class for svg element
+////////////////
+//  For region
+///////////////
 
-const regions = {
-  north: [
-    "TH55",
-    "TH53",
-    "TH54",
-    "TH52",
-    "TH51",
-    "TH50",
-    "TH58",
-    "TH56",
-    "TH57",
-  ],
-  northeast: [
-    "TH32",
-    "TH33",
-    "TH34",
-    "TH31",
-    "TH42",
-    "TH38",
-    "TH43",
-    "TH48",
-    "TH49",
-    "TH37",
-    "TH40",
-    "TH47",
-    "TH30",
-    "TH46",
-    "TH45",
-    "TH44",
-    "TH39",
-    "TH41",
-    "TH67",
-    "TH36",
-    "TH35",
-  ],
-  central: [
-    'TH75',
-    'TH74',
-    'TH10',
-    'TH11',
-    'TH12',
-    'TH13',
-    'TH73',
-    'TH26',
-    'TH19',
-    'TH16',
-    'TH14',
-    'TH15',
-    'TH17',
-    'TH72',
-    'TH18',
-    'TH61',
-    'TH60',
-    'TH62',
-    'TH66',
-    'TH64',
-    'TH65',
-  ],
-  west: [
-    'TH63',
-    'TH71',
-    'TH70',
-    'TH76',
-    'TH77'
-  ],
-  east: [
-    'TH23',
-    'TH22',
-    'TH21',
-    'TH24',
-    'TH20',
-    'TH27',
-    'TH25'
-  ],
-  south: [
-    'TH96',
-    'TH95',
-    'TH94',
-    'TH91',
-    'TH93',
-    'TH90',
-    'TH80',
-    'TH81',
-    'TH82',
-    'TH83',
-    'TH84',
-    'TH85',
-    'TH86',
-    'TH92'
-  ]
-};
-
+// Hover effect for regions
 function regionHover(hValue: any) {
   if (hValue != null && hValue.target != null) {
     const regionId = hValue.target.id; // Get the id of the hovered province
@@ -114,6 +29,39 @@ function regionHover(hValue: any) {
   }
 }
 
+// Selecting region by clicking
+function regionSelect(hValue: any) {
+  if (!hValue || !hValue.target || hValue.target.id === "svg") return;
+
+  clearRegionSelection();
+  const regionId = hValue.target.id;
+
+  // หาชื่อ region และ id ที่เป็น region ที่ถูกเลือก
+  const [selectedRegionName, selectedRegionIds] = Object.entries(regions).find(
+    ([_, ids]) => ids.includes(regionId)
+  ) || [null, []];
+
+  // ตั้งค่า class ให้กับ element ที่เป็น region ที่ถูกเลือก
+  if (selectedRegionName) {
+    legion_svg_class.value = `svg-${selectedRegionName}`;
+    selectedRegionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) element.classList.add("region-selected");
+    });
+  }
+
+  // ตั้งค่า class ให้กับ element ที่ไม่ใช่ region ที่ถูกเลือก
+  Object.entries(regions).forEach(([regionName, regionIds]) => {
+    if (regionName !== selectedRegionName) {
+      regionIds.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) element.classList.add("other-region");
+      });
+    }
+  });
+}
+
+//  Clear hover effect
 function clearHover() {
   // Remove the hovered class from all elements
   const elements = document.querySelectorAll("path");
@@ -122,6 +70,22 @@ function clearHover() {
   });
 }
 
+// Clear selected region
+function clearRegionSelection() {
+  // Remove the selected class from all elements
+  const elements = document.querySelectorAll("path");
+  elements.forEach((element) => {
+    element.classList.remove("region-selected");
+    element.classList.remove("other-region");
+    legion_svg_class.value = "svg-none"; // Clear the region class
+  });
+}
+
+////////////////
+//  Selecting a province
+///////////////
+
+// get the name attribute of the hovered path element
 function changeHoveValue(hValue: any) {
   if (hValue != null && hValue.target != null) {
     let name = hValue.target.attributes["name"]; // get name attribute
@@ -132,6 +96,7 @@ function changeHoveValue(hValue: any) {
   }
 }
 
+// select one path element and add the selectedPath class
 function setSeletedPath(hValue: any) {
   if (hValue != null && hValue.target != null) {
     console.log(hValue.target.id);
@@ -139,6 +104,7 @@ function setSeletedPath(hValue: any) {
   }
 }
 
+// clear the selectedPath class from all path elements
 function clearSelection() {
   if (svg_map.value != null && svg_map.value.children != null) {
     // for each path element or path, remove the selectedPath class
@@ -168,7 +134,8 @@ function clearSelection() {
             xmlns="http://www.w3.org/2000/svg"
             @mouseover="regionHover"
             @mouseout="clearHover"
-            @click="setSeletedPath">
+            @click="regionSelect"
+            :class="legion_svg_class">
             <path
               d="M603.8 426.8l-0.2-1.3 0.1-0.4 0-0.4 0.3-0.7 0-0.4-0.2-0.6 0-0.3 0.1-0.4 0.2-0.4 0.4-0.9 0.1-0.4 0.1-0.4-0.1-0.3-0.5-1.4-0.6-1.4-0.4-2.1 0-0.6 0.1-0.9-0.1-1.4 0.1-0.6 0-0.4 0.1-0.2 0.6-0.6 0.1-0.1 0.1-0.2 0.2-0.3 0.1-1.1 0.1-0.3 0.8-1.4 0.4-0.8 0.7-2.7 0.1-1-0.1-1.3 0-0.4 0.1-0.2 0.3-0.4 0.3-0.2 0.3-0.5 0.2-0.6 0.2-0.3 0.2-0.2 0.4-0.2 0.2-0.1 0.1-0.1 0.9-0.9 0.1-0.1 1.1-0.6 0.3-0.3 0.7-0.7 0.8-0.6 0.3-0.2 0.1-0.1 0.4-0.7 0.9-1.9 0.2-0.2 0.2-0.1 0.3-0.1 0.2-0.3 0.4-0.4 0.1-0.3 0.1-0.3-0.1-0.7 0-1.5-0.2-0.9 0-0.6 0-0.3 0.1-0.2 0.1-0.2 0.2-0.2 0.1-0.1 0.4-0.2 0.5-0.4 0.2-0.3 0-0.3 0-0.2-0.1-0.2 0-0.2-0.3-0.3-0.1-0.2-0.2-0.2-0.1-0.4 0-0.3 0.3-0.4 0.1-0.4 0-0.2 0-0.3-0.1-0.2 0-0.2-0.3-0.3-0.1-0.2 0-0.2-0.1-0.2 0-1.1-0.1-1.5 0-0.7-0.2-1.5 0.1-0.5 0.6-1.8 0.4-0.9 0.3-0.3 0.5-0.3 0.2-0.1 0.1-0.2 0.2-0.7 0.2-0.4 0.6-1.1 0.1-0.7-0.1-0.1 0-0.2 0-0.3-0.1-0.2-0.3-0.1-0.3 0-0.3-0.1-0.3-0.2-0.4-0.8 0-0.1-0.9-0.4-1.2-0.4 0 0.4 0.4 0-0.7 1.1-1 0-0.5-0.5 0.6-0.6-0.2-0.1-0.1 0.1-0.1-0.1 0-0.3-0.4 0-0.5 0.3-0.6-0.2-0.5-0.3-0.4-0.2-0.8 0.2-1.3 0.8-0.6 0.2-0.4 0.2-0.7 0.9-0.5 0.2-0.5-0.2-0.4-0.3-0.6-0.1-0.8 0.6-0.3-0.7-1.1-0.6-0.2-0.8-0.4 0-0.6 0.1-0.5-0.8-0.8-0.9-1.4 0.4-0.2-1-0.8-1.5-0.2-1-0.4 0 0 0.5-0.4 0 0-0.5-0.2 0.2-0.7 0.3-0.5-0.5-0.5-0.4-0.1-0.6 0.3-0.7 0.3-0.1 0.3-1.9 6.9 2 0.2 0.1 0.2 0.2 0.3 0.1 1.5 0.5 0.4 0.2 0.3 0.2 0.1 0.2 0.2 0.1 0.3 0.2 2.3 0.7 0.9 0.5 1-0.2 3.4-1.4 1.2-0.8 0.8-0.3 0.2-0.1 0.3 0 0.5 0 1.8 0.4 1 0.3 0.3 0 0.3 0 0.6-0.2 0.3-0.1 0.2-0.2 1.1-0.9 0.2-0.1 0.4-0.2 0.2 0 1-0.2 0.3 0.1 0.5 0.1 2.1 0.8 8.7 0.7 0.8-0.3 0.8-0.3 0.2 0 0.6-0.4 1.1-0.5 1.7 0 0.3-0.1 0.2-0.2 0.3-0.2 0.4 0.1 0.1 0.2 0.1 0.8 0.2 0.2 0.5 0.4 0.4 0.2 0.6 0 1-0.1-0.4 0.9 0.6 0.3 0.9-0.1 0.9-0.3 0.1 0.8 0.5 0.3 0.8 0.2 2.1-0.1 0.9 0.1 0.7 0.3 0.2 0.8 0.2 0.9 0.5 0.7 0 0.6-0.2 0.5-0.2 0.2-0.2 0.2-0.2 0.1-0.8 0.3-0.4 0.1-0.2 0.2-0.4 0.3-0.1 0.2-0.1 0.2-0.1 0.3-0.1 0.3-0.2 0.1-0.2 0.1-0.2 0.2-0.1 0.2-0.1 0.5-0.2 0.3-0.2 0.2-0.3 0.1-0.1 0 0 0.1-0.1 0.3-0.1 0.2-0.2 0.1-0.1 0.1-0.3 0.1-0.2 0-0.2 0-0.1 0.2 0 0.2 0.2 0.5 0.2 0.2 0.2 0.2 0.1 0.2 0 0.4-0.2 0.7-0.1 0.4-0.2 0.2-0.1 0.3-0.1 0.4-0.1 0.8-0.1 0.4-0.1 0.5-0.1 0.3 0.1 0.3 0.2 0.6 0.2 0.2 0.3 0.2 0.3 0.2 0.2 0.5 0.2 0.8 0.3 1.9 0.3 1.3 0.4 0.4 0.2 0.3 0.1 0.5 0 0.9-0.2 0.8-0.1 0.4-0.2 0.2-0.2 0.1-0.3 0.2-0.1 0.1 0 0.2-0.1 0.7-0.1 0.3-0.1 0.2-0.1 0.2-0.7 0.4-0.1 0.2-0.1 0.1-0.1 0.2-0.1 0.5-0.2 0.4-1.1 1.2-0.6 1-0.3 0.6-0.1 0.2-0.2 0.4-0.4 1.5-0.2 0.5-0.1 0.1-0.2 0.4 0 0.3 0 0.3 0.3 0.5 0.2 0.3 0.2 0.2 2.1 1.1 0.4 0.1 0.5 0.1 0.2 0 0.5 0.1 0.2 0.1 0.2 0.1 0.1 0.2 0.4 0.7 0.1 0.4-0.1 3.1 0.1 0.3 0.5 0.9 2.5 3.2 0.1 0.2 0.1 0.4 0 1.8-0.6 3.7-0.3 0.8 0 0.5 0 0.7 0.2 1.6 0.3 1.2 0.1 0.2 0.1 0.4 0.2 1.4-1 6-0.5 0.3-1.5 0.3-0.6 0.1-0.2-0.2-1.4-1.1-3.3 0.1-0.5 0.5-0.2 0.5-0.3 0.4-0.1 0-0.9 0.1-0.3-0.1-0.6-0.1-0.7-0.4-0.6-0.4-0.6-0.4-0.4-0.1-0.5-0.2-0.5 0-0.5 0.1-0.2 0.1-0.5 0-0.6-0.1-0.6 0-0.4-0.1-0.9-0.3-0.1 0-1.9-0.5-0.2 0-0.6-0.1-1.4-0.1-0.5-0.1-0.1-0.6 0.1-1.4-0.2-0.7-0.3-0.4-0.4-0.2-0.1-0.1-0.6-0.2-0.6 0.1-0.6 0.3-0.2 0.5-0.1 0.5-0.3 0.4-0.2 0.1-1.1 0.6-0.8-0.2-0.8-0.5-1.1-0.4-1 0.2-2.2 1.1-0.1 0-2.2 1.6-0.5 0.2-0.6-0.1-0.5-0.3-0.3-0.3-0.2-0.1-0.9 0.2-1.6 1.2-1.1 0.5-0.3 0.1-0.9 0.1-3 0-1.1 0-0.1 0-0.8 0.2-0.9 0.3z"
               id="TH32"
@@ -487,7 +454,7 @@ function clearSelection() {
     </div>
 
     <button
-      @click="clearSelection"
+      @click="clearRegionSelection"
       class="absolute bottom-6 z-[99] px-4 py-2 text-black bg-white rounded-3xl shadow-xl">
       ล้างรายการเลือกทั้งหมด X
     </button>
@@ -497,5 +464,15 @@ function clearSelection() {
 <style scoped>
 .region-hover {
   fill: #ee7f6a;
+}
+
+.region-selected {
+  fill: #c4cbf1;
+  transition: 0.8s;
+}
+
+.other-region {
+  fill: #fff;
+  transition: 0.8s;
 }
 </style>

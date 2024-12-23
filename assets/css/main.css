@@ -2,119 +2,228 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-    font-family: sans-serif;
-    color: #fff
+  font-family: sans-serif;
+  color: #fff;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
 
 /* Custom Scrollbar Design */
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+  width: 10px;
+  height: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #2d2733;
+  background: #2d2733;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #555;
+  background: #555;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #dcbfff;
+  background: #dcbfff;
 }
 
 .thailand-map {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    min-height: 30em;
-    background-color: #f1f4fb;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 30em;
+  background-color: #f1f4fb;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map-container-inner {
-    position: relative;
-    width: 95vmin;
-    height: 95vmin;
-    border-radius: 100%;
-    overflow: hidden;
-    background-image: linear-gradient(to left, #eaebff, #ffffff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  width: 95vmin;
+  height: 95vmin;
+  border-radius: 100%;
+  overflow: hidden;
+  background-image: linear-gradient(to left, #eaebff, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map-container-outter {
-    position: relative;
-    width: 115vmin;
-    height: 115vmin;
-    border-radius: 100%;
-    overflow: hidden;
-    background-image: linear-gradient(to right, #eaebff, #ffffff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  width: 115vmin;
+  height: 115vmin;
+  border-radius: 100%;
+  overflow: hidden;
+  background-image: linear-gradient(to right, #eaebff, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map-container {
-    position: relative;
-    width: 76vmin;
-    height: 76vmin;
-    border-radius: 100%;
-    overflow: hidden;
-    /* background-image: linear-gradient(to left, #eaebff, #ffffff); */
-    background-color: #b1c8ed;
-    /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Thailand2_location_map.svg/682px-Thailand2_location_map.svg.png');
+  position: relative;
+  width: 76vmin;
+  height: 76vmin;
+  border-radius: 100%;
+  overflow: hidden;
+  /* background-image: linear-gradient(to left, #eaebff, #ffffff); */
+  background-color: #b1c8ed;
+  /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Thailand2_location_map.svg/682px-Thailand2_location_map.svg.png');
     background-size: 53.5%;
     background-position: 135px 22px;
     background-repeat: no-repeat; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 18px 22px rgba(236, 237, 254, 255)
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 18px 22px rgba(236, 237, 254, 255);
 }
 
 svg {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 path {
-    cursor: pointer;
-    fill: #c4cbf1;
-    stroke: #5672d7;
-    stroke-width: 1.8;
-    transition: 100ms;
+  cursor: pointer;
+  fill: #c4cbf1;
+  stroke: #5672d7;
+  stroke-width: 1.8;
+  transition: 100ms;
 }
 
-path:hover {
-    fill: #ee7f6a;
-}
+/* path:hover {
+  fill: #ee7f6a;
+} */
 
 .selectedPath {
   fill: red;
 }
 
-.svg-northeast {
-  transform: scale(2.48);
-  transform-origin: 400px 200px;
+.svg-none {
+  position: none;
+  transform: none;
+  transform-origin: none;
+  transition: 0.8s;
 }
+
+@media only screen and (min-width: 1536px) {
+  .svg-north {
+    position: absolute;
+    transform: scale(2.8) translate(120px, 335px);
+    transform-origin: center;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1536px) {
+  .svg-north {
+    position: absolute;
+    transform: scale(2.6) translate(95px, 260px);
+    transform-origin: center;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    pointer-events: none;
+  }
+
+  .svg-northeast {
+    transform: scale(2.6) translate(-58px, 100px);
+    transform-origin: center;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    pointer-events: none;
+  }
+
+  .svg-central {
+    transform: scale(2.6) translate(45px, 85px);
+    transform-origin: center;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    pointer-events: none;
+  }
+
+  .svg-east {
+    transform: scale(2.6) translate(-10px, 10px);
+    transform-origin: center;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    pointer-events: none;
+  }
+
+  .svg-west {
+    transform: scale(2.2) translate(75px, 45px);
+    transform-origin: center;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    pointer-events: none;
+  }
+
+  .svg-south {
+    transform: scale(2.5) translate(45px, -165px);
+    transform-origin: center;
+    transition: 0.8s;
+    transition-timing-function: ease-in-out;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) {
+  .svg-north {
+    position: absolute;
+    transform: scale(2.6) translate(95px, 260px);
+    transform-origin: center;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  .svg-north {
+    position: absolute;
+    transform: scale(2.6) translate(95px, 260px);
+    transform-origin: center;
+  }
+}
+
+/* .svg-north {
+  position: absolute;
+  transform: scale(2.6) translate(95px, 260px);
+  transform-origin: center;
+}
+
+.svg-northeast {
+  transform: scale(2.78);
+  transform-origin: 440px 290px;
+}
+
+.svg-central {
+  transform: scale(2.78);
+  transform-origin: 245px 300px;
+}
+
+.svg-east {
+  transform: scale(2.78);
+  transform-origin: 360px 460px;
+}
+
+.svg-west {
+  transform: scale(2.78);
+  transform-origin: 100px 400px;
+}
+
+.svg-south {
+  transform: scale(2.78);
+  transform-origin: 200px 500px;
+} */
