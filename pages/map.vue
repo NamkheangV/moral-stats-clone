@@ -474,5 +474,7 @@ function clearSelection() {
 .other-region {
   fill: #fff;
   transition: 0.8s;
+  stroke: #c5c5c5;
+  stroke-width: 0.3;
 }
 </style>

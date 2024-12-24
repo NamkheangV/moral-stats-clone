@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./components/**/*.{js,vue,ts}",
@@ -8,7 +9,11 @@ export default {
     "./app.vue",
     "./error.vue",
   ],
+
   theme: {
+    fontFamily: {
+      'kanit': [' Kanit', 'sans-serif']
+    },
     extend: {},
   },
   plugins: [],

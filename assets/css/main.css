@@ -1,16 +1,21 @@
+@import "./fontsface.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: sans-serif;
-  color: #fff;
+  color: #000000;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    @apply font-kanit;
+  }
 }
 
 /* Custom Scrollbar Design */
@@ -50,7 +55,7 @@ body {
 }
 
 .map-container-inner {
-  position: relative;
+  /* position: relative; */
   width: 95vmin;
   height: 95vmin;
   border-radius: 100%;
@@ -100,7 +105,7 @@ path {
   cursor: pointer;
   fill: #c4cbf1;
   stroke: #5672d7;
-  stroke-width: 1.8;
+  stroke-width: 0.6;
   transition: 100ms;
 }
 
@@ -132,8 +137,7 @@ path {
 
 @media (min-width: 1280px) and (max-width: 1536px) {
   .svg-north {
-    position: absolute;
-    transform: scale(2.6) translate(95px, 260px);
+    transform: scale(3.6) translate(70px, 195px);
     transform-origin: center;
     transition: 0.8s;
     transition-timing-function: ease-in-out;
@@ -149,7 +153,7 @@ path {
   }
 
   .svg-central {
-    transform: scale(2.6) translate(45px, 85px);
+    transform: scale(3.4) translate(45px, 82px);
     transform-origin: center;
     transition: 0.8s;
     transition-timing-function: ease-in-out;
@@ -157,7 +161,7 @@ path {
   }
 
   .svg-east {
-    transform: scale(2.6) translate(-10px, 10px);
+    transform: scale(4.3) translate(-10px, 6px);
     transform-origin: center;
     transition: 0.8s;
     transition-timing-function: ease-in-out;
@@ -165,7 +169,7 @@ path {
   }
 
   .svg-west {
-    transform: scale(2.2) translate(75px, 45px);
+    transform: scale(2.2) translate(75px, 40px);
     transform-origin: center;
     transition: 0.8s;
     transition-timing-function: ease-in-out;
@@ -173,7 +177,7 @@ path {
   }
 
   .svg-south {
-    transform: scale(2.5) translate(45px, -165px);
+    transform: scale(2.6) translate(46px, -160px);
     transform-origin: center;
     transition: 0.8s;
     transition-timing-function: ease-in-out;

@@ -5,6 +5,13 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/main.css"],
 
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    }
+  ],
+
   postcss: {
     plugins: {
       tailwindcss: {},
