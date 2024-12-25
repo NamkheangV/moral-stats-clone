@@ -10,7 +10,7 @@ const messageCountLabels = ref([
 </script>
 
 <template>
-  <div class="relative w-full p-6 bg-[#f8f4fc] font-sarabun">
+  <div class="relative w-full p-6 bg-[#f8f4fc] font-sarabun overflow-hidden">
     <div class="grid grid-cols-2">
       <div class="flex flex-col gap-4 justify-self-start">
         <div class="flex items-center gap-2">

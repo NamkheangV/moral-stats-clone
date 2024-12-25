@@ -55,7 +55,8 @@ body {
 }
 
 .map-container-inner {
-  /* position: relative; */
+  position: relative;
+  z-index: 10;
   width: 95vmin;
   height: 95vmin;
   border-radius: 100%;
@@ -80,6 +81,7 @@ body {
 
 .map-container {
   position: relative;
+  z-index: 80;
   width: 76vmin;
   height: 76vmin;
   border-radius: 100%;
@@ -94,6 +96,31 @@ body {
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 18px 22px rgba(236, 237, 254, 255);
+}
+
+#name {
+  position: absolute;
+  background-color: #fff;
+  width: fit-content;
+  opacity: 0;
+  padding: 5px;
+  font-size: 1.2rem;
+}
+
+.pin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  border-color: #000;
+  border-width: 2.5px;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.pin:hover {
+  background-color: #ec7c6c;
 }
 
 svg {
